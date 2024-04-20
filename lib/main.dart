@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
+import 'package:firebase_core/firebase_core.dart' show Firebase;
 import 'package:student_housing_mobile/views/login.dart';
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 // com.studenthousingdbproject.student_housing_mobile
+// 1//0esEWgw8BkHESCgYIARAAGA4SNwF-L9Irwe2e3cNjTyqAvBpg8qzvamA0gv477fpYQ7bE58c4qi7xUn6yTvn2uDbF18LUu4DIZEg
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
