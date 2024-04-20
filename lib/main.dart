@@ -1,11 +1,15 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
 import 'package:firebase_core/firebase_core.dart' show Firebase;
+import 'package:student_housing_mobile/firebase_options.dart';
 import 'package:student_housing_mobile/views/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 // com.studenthousingdbproject.student_housing_mobile
