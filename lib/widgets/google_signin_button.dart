@@ -16,13 +16,9 @@ class _GoogleSigninButtonState extends State<GoogleSigninButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
           onPressed: () async {
-            // Google Sign-In authentication
             final user = await _googleSignInHelper.signInWithGoogle();
             if (user != null) {
-              // User successfully signed in, handle further actions
-              
               if (context.mounted) {
-                // Push until reaching the modal route '/home'
                 Navigator.of(context).pushNamed('/home');
               }
               if (kDebugMode) {

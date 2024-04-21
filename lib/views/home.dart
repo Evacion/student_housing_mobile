@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final BackEnd _googleBackend = BackEnd(); // Initialize GoogleBackend
+  final BackEnd _googleBackend = BackEnd();
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +28,8 @@ class _HomePageState extends State<HomePage> {
               future: _googleBackend.getCurrentUser(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  // Return a loading indicator while waiting for the user data
                   return const CircularProgressIndicator();
                 } else {
-                  // Once the future completes, pass the user data to the UserInfoWidget
                   return UserInfoWidget(user: snapshot.data);
                 }
               },

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:student_housing_mobile/backend/backend.dart';
 
 class SignOutButton extends StatelessWidget {
-  final BackEnd _firebaseBackend = BackEnd();
-  final BackEnd _googleBackend = BackEnd();
+  final BackEnd _backend = BackEnd();
 
   SignOutButton({super.key});
 
@@ -11,14 +10,8 @@ class SignOutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
-        // Sign out from Google
-        await _googleBackend.signOut();
-        // Sign out from Firebase
-        await _firebaseBackend.signOut();
-
-        // Check if the widget is mounted
+        await _backend.signOut();
         if (context.mounted) {
-          // Pop until reaching the modal route '/'
           Navigator.of(context).popUntil((route) => route.isFirst);
         }
       },

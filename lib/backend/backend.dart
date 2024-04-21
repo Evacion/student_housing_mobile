@@ -23,27 +23,18 @@ class BackEnd {
   // Method to sign in with Google
   Future<User?> signInWithGoogle() async {
     try {
-      // Start the Google Sign-In process
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-
       if (googleUser != null) {
-        // Get the authentication details
         final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-        // Get the Google credentials
         final String accessToken = googleAuth.accessToken ?? '';
         final String idToken = googleAuth.idToken ?? '';
 
-        // Create a credential from the Google access and ID tokens
         final OAuthCredential credential = GoogleAuthProvider.credential(
           accessToken: accessToken,
           idToken: idToken,
         );
 
-        // Sign in with Firebase using the credential
         final UserCredential userCredential = await _auth.signInWithCredential(credential);
-
-        // Return the signed-in user
         return userCredential.user;
       }
     } catch (e) {
@@ -72,27 +63,20 @@ class BackEnd {
 
   Future<void> signOut() async {
     try {
-      // Sign out from Google
-      await _googleSignIn.disconnect();
+      // await _googleSignIn.disconnect();
       await _googleSignIn.signOut();
-
-      // Sign out from Firebase
       await _auth.signOut();
     } on PlatformException catch (e) {
-      // Handle sign-out errors
       if (e.code == 'sign_out_canceled') {
-        // User canceled sign-out
         if (kDebugMode) {
           print('Sign-Out Canceled');
         }
       } else {
-        // Other sign-out errors
         if (kDebugMode) {
           print('Other Sign-Out Error: $e');
         }
       }
     } catch (e) {
-      // Handle other errors
       if (kDebugMode) {
         print('Try Catch Sign-Out Error: $e');
       }

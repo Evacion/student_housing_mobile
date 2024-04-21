@@ -20,10 +20,8 @@ class MyApp extends StatelessWidget {
       future: FirebaseAuth.instance.authStateChanges().first,
       builder: (context, AsyncSnapshot<User?> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // Show a loading indicator while checking the authentication state
           return const CircularProgressIndicator();
         } else {
-          // Determine which route to take based on the authentication state
           final bool isLoggedIn = snapshot.hasData;
           return MaterialApp(
             title: 'Student Housing Finder Mobile',
