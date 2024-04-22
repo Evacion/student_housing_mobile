@@ -4,6 +4,9 @@
         android:label="student_housing_mobile"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- <meta 
+            name="google-signin-client_id" 
+            content="AIzaSyB2ye5vscFm1eiOiPVBIQ8np-CnGNk4DQc" /> -->
         <activity
             android:name=".MainActivity"
             android:exported="true"

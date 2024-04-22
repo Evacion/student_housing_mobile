@@ -29,6 +29,13 @@
             {
               "client_id": "997141921548-vh53d2d1dcckitdhocgjord2dl0jkbuu.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "997141921548-9s8n4p4a8r4r8kpnb1p7q9diibpjh8gs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.arisenlab.flutterFinals"
+              }
             }
           ]
         }
