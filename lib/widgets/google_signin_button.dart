@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_housing_mobile/backend/backend.dart';
 
 class GoogleSigninButton extends StatefulWidget {
@@ -31,7 +32,13 @@ class _GoogleSigninButtonState extends State<GoogleSigninButton> {
               }
             }
           },
-      child: const Text('Signin with Google'),
+      child: const Row(
+        children: [
+          FaIcon(FontAwesomeIcons.google, size: 20),
+          SizedBox(width: 10,),
+          Text('Sign In with Google'),
+        ],
+      ),
     );
   }
 }

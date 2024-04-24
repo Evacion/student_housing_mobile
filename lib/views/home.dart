@@ -18,8 +18,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign In'),
+        title: const Center(child: Text('Home')),
       ),
+      endDrawer: const Placeholder(),
       body: Center(
         child: Column(
           children: [
