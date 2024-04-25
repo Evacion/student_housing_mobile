@@ -8,17 +8,17 @@ import 'package:student_housing_mobile/views/login.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final initializationFuture = Firebase.initializeApp(
-    // options: const FirebaseOptions(
-    //   apiKey: "AIzaSyB2ye5vscFm1eiOiPVBIQ8np-CnGNk4DQc",
-    //   appId: "1:997141921548:web:70ec9011eff4595be8d329",
-    //   messagingSenderId: "997141921548",
-    //   projectId: "student-housing-db",
-    //   authDomain: "student-housing-db.firebaseapp.com",
-    //   storageBucket: "student-housing-db.appspot.com",
-    //   measurementId: "G-Y85GR73R4B",
-    //   androidClientId: "997141921548-vh53d2d1dcckitdhocgjord2dl0jkbuu.apps.googleusercontent.com",
-    //   iosClientId: "997141921548-mvfia8o80frr23gkfnr9atclk4r5i67q.apps.googleusercontent.com",
-    // ),
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyB2ye5vscFm1eiOiPVBIQ8np-CnGNk4DQc",
+      appId: "1:997141921548:web:70ec9011eff4595be8d329",
+      messagingSenderId: "997141921548",
+      projectId: "student-housing-db",
+      authDomain: "student-housing-db.firebaseapp.com",
+      storageBucket: "student-housing-db.appspot.com",
+      measurementId: "G-Y85GR73R4B",
+      androidClientId: "997141921548-vh53d2d1dcckitdhocgjord2dl0jkbuu.apps.googleusercontent.com",
+      iosClientId: "997141921548-mvfia8o80frr23gkfnr9atclk4r5i67q.apps.googleusercontent.com",
+    ),
   );
 
   // Future completion checker
@@ -88,6 +88,7 @@ class MyApp extends StatelessWidget {
             routes: {
               '/': (context) => const LoginPage(),
               '/home': (context) => const HomePage(),
+              '/housing':(context) => const Placeholder(),
             },
           );
         }
@@ -95,3 +96,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+//flutter run -d chrome --web-renderer html
+//Run the above to resolve image issue, but idk why

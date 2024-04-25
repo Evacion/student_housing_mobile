@@ -36,7 +36,7 @@ class _GoogleSigninButtonState extends State<GoogleSigninButton> {
         children: [
           FaIcon(FontAwesomeIcons.google, size: 20),
           SizedBox(width: 10,),
-          Text('Sign In with Google'),
+          Text('Google Sign In'),
         ],
       ),
     );

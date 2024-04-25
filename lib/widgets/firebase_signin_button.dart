@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_housing_mobile/backend/backend.dart';
 
 class FirebaseSignInButton extends StatelessWidget {
@@ -33,7 +33,7 @@ class FirebaseSignInButton extends StatelessWidget {
         children: [
           Icon(Icons.person, size: 20),
           SizedBox(width: 10,),
-          Text('Sign In Anonymously'),
+          Text('Guest Sign In'),
         ],
       ),
     );
