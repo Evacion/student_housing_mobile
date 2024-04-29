@@ -27,7 +27,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.studenthousingdbproject.student_housing_mobile"
-    compileSdkVersion 34//flutter.compileSdkVersion
+    compileSdkVersion flutter.compileSdkVersion //34
     ndkVersion flutter.ndkVersion
 
     compileOptions {

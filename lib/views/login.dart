@@ -45,65 +45,21 @@ class LoginPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16),
                           ),
                           margin: const EdgeInsets.all(24),
-                          child: Padding(
-                            padding: const EdgeInsets.all(24),
+                          child: const Padding(
+                            padding: EdgeInsets.all(24),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
-                                  'Housing for Students',
-                                  style: Theme.of(context).textTheme.displayLarge,
-                                ),
-                                const SizedBox(height: 16),
-                                TextFormField(
-                                  decoration: const InputDecoration(
-                                    labelText: 'Email',
-                                  ),
-                                  keyboardType: TextInputType.emailAddress,
-                                ),
-                                const SizedBox(height: 16),
-                                TextFormField(
-                                  obscureText: true,
-                                  decoration: const InputDecoration(
-                                    labelText: 'Password',
+                                GoogleSigninButton(),
+                                SizedBox(
+                                  height: 40,
+                                  child: Text(
+                                    'OR',
+                                    textAlign: TextAlign.center,
+                                    textScaler: TextScaler.linear(2),
                                   ),
                                 ),
-                                const SizedBox(height: 16),
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  child: const Text('Sign In'),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const GoogleSigninButton(),
-                                    const SizedBox(
-                                      width: 40,
-                                      child: Text(
-                                        'OR',
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    FirebaseSignInButton(),
-                                  ],
-                                ),
-                                const SizedBox(height: 16),
-                                // RichText(
-                                //   text: TextSpan(
-                                //     children: [
-                                //       const TextSpan(
-                                //         text: 'Don\'t have an account? ',
-                                //       ),
-                                //       TextSpan(
-                                //         text: 'Sign Up here',
-                                //         style: TextStyle(
-                                //           fontWeight: FontWeight.w600,
-                                //           color: Theme.of(context).colorScheme.primary,
-                                //         ),
-                                //       )
-                                //     ],
-                                //   ),
-                                // ),
+                                FirebaseSignInButton(),
                               ],
                             ),
                           ),

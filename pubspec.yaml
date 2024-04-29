@@ -38,12 +38,14 @@ dependencies:
   firebase_storage: ^11.6.9
   firebase_analytics: ^10.0.2
   google_sign_in: ^6.2.1
-  google_fonts: ^2.2.0
+  google_fonts: ^6.2.1
   provider: ^6.1.2
   auto_size_text: ^3.0.0
   font_awesome_flutter: ^10.0.0
   firebase_database: ^10.5.4
   flutter_rating_bar: ^4.0.1
+  carousel_slider: ^4.2.1
+  shared_preferences: ^2.2.3
   # flutterflow: ^0.1.1
   # flutterflow_widgets: ^0.0.52
   # video_player: ^2.0.0

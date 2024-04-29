@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:student_housing_mobile/widgets/dorm_widget.dart';
 
 class CustomListTile extends StatelessWidget {
   final Map<String, dynamic> document;
@@ -9,72 +9,118 @@ class CustomListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    dynamic housePhotos = document['housePhotoUrl'];
+    if (housePhotos != null) {
+      if (housePhotos is Map) {
+        housePhotos = housePhotos.values.toList();
+      }
+      if (housePhotos is! List) {
+        housePhotos = [housePhotos];
+      }
+    } else {
+      // Handle the case where document['housePhotoUrl'] is null
+      housePhotos = []; // or any other default value
+    }
+
     return ListTile(
-      title: GestureDetector(
-        onTap: () {
-          if (kDebugMode) {
-            print("Kuumongus: ${document}");
-          }
-        },
-        child: Card(
+      title: Card(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 12),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             children: [
-              Hero(
-                tag: 'italyImage_${document['id']}',
-                transitionOnUserGestures: true,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
-                  ),
-                  child: Image.network(
-                    document['housePhotoUrl'][0],
-                    width: double.infinity,
-                    height: 200,
-                    fit: BoxFit.cover,
-                  ),
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
+                ),
+                child: housePhotos.isNotEmpty
+                    ? Image.network(
+                        housePhotos[0],
+                        width: double.infinity,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      )
+                    : const SizedBox(
+                        height: 30,
+                        child: Text("No House Photos Available")
+                    ), // Handle null or empty list
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      "${document['name'] ?? ''}",
+                      style: const TextStyle(
+                        fontFamily: 'Outfit',
+                        color: Color(0xFF14181B),
+                        fontSize: 22,
+                        letterSpacing: 0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      document['name'],
+                      "${document['pricing'] ?? ''} PHP",
                       style: const TextStyle(
-                        fontFamily: 'Plus Jakarta Sans',
-                        color: Color(0xFF14181B),
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Readex Pro',
+                        // color: ThemeData().primaryColor,
+                        fontSize: 12,
+                        letterSpacing: 0,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        // RatingBarIndicator(
-                        //   itemBuilder: (context, index) => const Icon(
-                        //     Icons.radio_button_checked_rounded,
-                        //     color: Color(0xFF14181B),
-                        //   ),
-                        //   direction: Axis.horizontal,
-                        //   rating: document['rating'],
-                        //   unratedColor: const Color(0xFF57636C),
-                        //   itemCount: 5,
-                        //   itemSize: 16,
-                        // ),
-                        // const SizedBox(width: 8),
-                        Text(
-                          '${document['description']}',
-                          style: const TextStyle(
-                            fontFamily: 'Plus Jakarta Sans',
-                            color: Color(0xFF14181B),
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                          ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "${document['description'] ?? ''}",
+                        style: const TextStyle(
+                          fontFamily: 'Readex Pro',
+                          color: Color(0xFF57636C),
+                          fontSize: 14,
+                          letterSpacing: 0,
+                          fontWeight: FontWeight.w500,
                         ),
-                      ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        if (kDebugMode) {
+                          print("Kuumongus: ${document['rooms']}");
+                        }
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DormWidget(document: document),
+                          ),
+                        );
+                      },
+                      child: const Text("See More"),
                     ),
                   ],
                 ),

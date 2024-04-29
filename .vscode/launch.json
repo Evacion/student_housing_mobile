@@ -1,0 +1,48 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Flutter: Attach to Device",
+            "type": "dart",
+            "request": "attach"
+        },        
+        // {
+        //     "name": "student_housing_mobile",
+        //     "request": "launch",
+        //     "type": "dart",
+        //     "args": ["run", "-d", "chrome", "--web-renderer", "html"],
+        //     "program": "android/app/build/outputs/flutter-apk/app-debug.apk",
+        //     "cwd": "student_housing_mobile",
+        //     "flutterMode": "debug"
+        // },
+        // {
+        //     "name": "student_housing_mobile (debug)",
+        //     "request": "launch",
+        //     "type": "dart",
+        //     "program": "android/app/build/outputs/apk/debug/app-debug.apk",
+        //     "cwd": "student_housing_mobile",
+        //     "flutterMode": "debug"
+        // },
+        {
+            "name": "student_housing_mobile",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "student_housing_mobile (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "student_housing_mobile (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

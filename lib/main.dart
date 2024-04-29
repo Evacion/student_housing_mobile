@@ -7,18 +7,20 @@ import 'package:student_housing_mobile/views/login.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  const fbOptions = FirebaseOptions(
+    apiKey: "AIzaSyB2ye5vscFm1eiOiPVBIQ8np-CnGNk4DQc",
+    appId: "1:997141921548:web:70ec9011eff4595be8d329",
+    messagingSenderId: "997141921548",
+    projectId: "student-housing-db",
+    authDomain: "student-housing-db.firebaseapp.com",
+    storageBucket: "student-housing-db.appspot.com",
+    databaseURL: "https://student-housing-db.firebaseio.com",
+    measurementId: "G-Y85GR73R4B",
+    androidClientId: "997141921548-ve06ice1a2qma2v5ej0afe1g9qi6aqbd.apps.googleusercontent.com",
+    iosClientId: "997141921548-mvfia8o80frr23gkfnr9atclk4r5i67q.apps.googleusercontent.com",
+  );
   final initializationFuture = Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: "AIzaSyB2ye5vscFm1eiOiPVBIQ8np-CnGNk4DQc",
-      appId: "1:997141921548:web:70ec9011eff4595be8d329",
-      messagingSenderId: "997141921548",
-      projectId: "student-housing-db",
-      authDomain: "student-housing-db.firebaseapp.com",
-      storageBucket: "student-housing-db.appspot.com",
-      measurementId: "G-Y85GR73R4B",
-      androidClientId: "997141921548-vh53d2d1dcckitdhocgjord2dl0jkbuu.apps.googleusercontent.com",
-      iosClientId: "997141921548-mvfia8o80frr23gkfnr9atclk4r5i67q.apps.googleusercontent.com",
-    ),
+    options: fbOptions,
   );
 
   // Future completion checker
@@ -31,7 +33,6 @@ Future<void> main() async {
       print('Firebase initialization error: $error');
     }
   });
-
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
