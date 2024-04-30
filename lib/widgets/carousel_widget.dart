@@ -6,6 +6,7 @@ class CustomCarousel extends StatelessWidget {
   final int initialPage;
   final List<String> imagePaths;
   final void Function(int, CarouselPageChangedReason)? onPageChanged;
+  final double itemSpacing;
 
   const CustomCarousel({
     super.key,
@@ -13,6 +14,7 @@ class CustomCarousel extends StatelessWidget {
     required this.initialPage,
     required this.imagePaths,
     this.onPageChanged,
+    this.itemSpacing = 10.0, // Default spacing value
   });
 
   @override
@@ -20,16 +22,21 @@ class CustomCarousel extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: 387,
-      child: CarouselSlider(
-        items: imagePaths.map((path) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              path,
-              fit: BoxFit.cover,
+      child: CarouselSlider.builder(
+        itemCount: imagePaths.length,
+        itemBuilder: (context, index, _) {
+          final imagePath = imagePaths[index];
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: itemSpacing / 2),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                imagePath,
+                fit: BoxFit.cover,
+              ),
             ),
           );
-        }).toList(),
+        },
         carouselController: carouselController,
         options: CarouselOptions(
           initialPage: initialPage,

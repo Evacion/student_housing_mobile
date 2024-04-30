@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:student_housing_mobile/widgets/drawer_custom.dart';
-import 'package:student_housing_mobile/widgets/listtile_custom.dart';
+import 'package:student_housing_mobile/widgets/list_tile_custom.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -85,35 +85,55 @@ class _HomePageState extends State<HomePage> {
     required String nameFilter,
   }) {
     var filteredDocs = documents.where((doc) {
-      bool passesFilters = false;
+      bool passesFilters = true;
+      
+      bool isVisible = doc['isVisible'];
 
       bool isVisit = doc['isVisitorsAllowed'];
       bool isPet = doc['isPetsAllowed'];
       double? pricing = doc['pricing']?.toDouble();
-      String? name = doc['name']?.toString().toLowerCase();
-      if (kDebugMode) {
-        print("NAME FILTER: $nameFilter");
-      }
-      if (!visitorsAllowedSelected && !petsAllowedSelected && (nameFilter == "Enter Name")) {
-        return true;
-      }
-      if (visitorsAllowedSelected == isVisit) passesFilters = true;
-      if (petsAllowedSelected == isPet) passesFilters = true;
-      if(!(minPrice == minLimitPrice && maxPrice == maxLimitPrice)){
-        if (pricing != null && (pricing >= minPrice && pricing <= maxPrice)) {
+      String? name = doc['name']?.toString().toLowerCase() ?? "";
+
+      if (isVisible){
+        // If both visitorsAllowedSelected and petsAllowedSelected are selected,
+        // check if the document allows both visitors and pets
+        if (visitorsAllowedSelected && petsAllowedSelected) {
+          passesFilters = isVisit && isPet;
+        }
+
+        // If only visitorsAllowedSelected is selected,
+        // check if the document allows visitors but not pets
+        if (visitorsAllowedSelected && !petsAllowedSelected) {
+          passesFilters = isVisit && !isPet;
+        }
+
+        // If only petsAllowedSelected is selected,
+        // check if the document allows pets but not visitors
+        if (!visitorsAllowedSelected && petsAllowedSelected) {
+          passesFilters = !isVisit && isPet;
+        }
+
+        // Check if the pricing falls outside the specified range
+        if (minPrice != minLimitPrice && maxPrice != maxLimitPrice) {
+          if (pricing != null && (pricing > minPrice && pricing < maxPrice)) {
+            passesFilters = false;
+          }
+        }
+
+        // Check if the document name contains the name filter string
+        if (nameFilter.isNotEmpty && !name.contains(nameFilter.toLowerCase())) {
+          passesFilters = false;
+        }
+
+        if (!visitorsAllowedSelected && !petsAllowedSelected && (nameFilter == "Enter Name" || nameFilter == "") && (minPrice == minLimitPrice && maxPrice == maxLimitPrice)) {
           passesFilters = true;
         }
+        // Return true only if all conditions are met
+        return passesFilters;
+      } else {
+        return false;
       }
-      if (kDebugMode) {
-        print("CURR PRICE: $pricing; MINPRICE: $minPrice; MAXPRICE: $maxPrice; MLBMINPRICE: $minLimitPrice; MLBMAXPRICE: $maxLimitPrice;");
-      }
-      if (nameFilter.isNotEmpty && name!.contains(nameFilter.toLowerCase())) {
-        if (kDebugMode) {
-          print(name);
-        }
-        passesFilters = true;
-      }
-      return passesFilters;
+
     }).toList();
     setState(() {
       isLoading = false;
@@ -143,7 +163,7 @@ class _HomePageState extends State<HomePage> {
 
     if (kDebugMode) {
       print("<<<<<<<<<<<<<<<<<<<<UPDATED DATA HERE>>>>>>>>>>>>>>>>>>>");
-      print(filterParams);
+      // print(filterParams);
     }
   }
 

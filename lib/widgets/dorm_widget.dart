@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:student_housing_mobile/widgets/carousel_widget.dart';
 
@@ -9,10 +9,6 @@ class DormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (kDebugMode) {
-      print(document['rooms']?['0']);
-    }
-
     dynamic housePhotos = document['housePhotoUrl'];
     if (housePhotos != null) {
       if (housePhotos is Map) {
@@ -55,6 +51,7 @@ class DormWidget extends StatelessWidget {
                   housePhotos.isNotEmpty ? SizedBox(
                     height: 400,
                     child: CustomCarousel(
+                      itemSpacing: 4,
                       initialPage: 1,
                       imagePaths: housePhotos.cast<String>(),
                     ),
@@ -224,6 +221,7 @@ class DormWidget extends StatelessWidget {
                                 ? SizedBox(
                                     height: 200,
                                     child: CustomCarousel(
+                                      itemSpacing: 2,
                                       initialPage: 1,
                                       imagePaths: roomPhotoUrls.cast<String>(),
                                     ),

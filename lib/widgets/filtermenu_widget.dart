@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FilterMenu extends StatefulWidget {
   final bool visitorsAllowedSelected;
@@ -20,7 +21,9 @@ class FilterMenu extends StatefulWidget {
     required this.maxPrice,
     required this.nameFilter,
     required this.onResetFilters,
-    required this.onUpdateFilters, required this.minLimitPrice, required this.maxLimitPrice,  
+    required this.onUpdateFilters,
+    required this.minLimitPrice,
+    required this.maxLimitPrice,
   });
 
   @override
@@ -34,6 +37,7 @@ class _FilterMenuState extends State<FilterMenu> {
   late double _maxPrice;
   late RangeValues _priceRange;
   late TextEditingController _nameController;
+  List<String> _searchHistory = [];
 
   @override
   void initState() {
@@ -44,20 +48,44 @@ class _FilterMenuState extends State<FilterMenu> {
     _maxPrice = widget.maxPrice;
     _priceRange = RangeValues(widget.minPrice, widget.maxPrice);
     _nameController = TextEditingController();
+    _loadSearchHistory();
   }
+
+  Future<void> _loadSearchHistory() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _searchHistory = prefs.getStringList('searchHistory') ?? [];
+    });
+  }
+
+  Future<void> _saveSearchHistory() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setStringList('searchHistory', [widget.nameFilter]);
+}
+
 
   void _resetFilters() {
     setState(() {
-      // Reset all filter values to their default state
       _visitorsAllowedSelected = false;
       _petsAllowedSelected = false;
       _priceRange = RangeValues(widget.minPrice, widget.maxPrice);
       _nameController.clear();
     });
-    // Callback to notify the parent widget that filters have been reset
     widget.onResetFilters();
   }
-  
+
+  void _handleSearchHistory(String value) {
+    setState(() {
+      _nameController.text = value;
+      _searchHistory.remove(value);
+      _searchHistory.insert(0, value);
+      if (_searchHistory.length > 5) {
+        _searchHistory.removeLast();
+      }
+      _saveSearchHistory();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -75,6 +103,18 @@ class _FilterMenuState extends State<FilterMenu> {
             decoration: InputDecoration(
               labelText: widget.nameFilter,
               border: const OutlineInputBorder(),
+              suffixIcon: PopupMenuButton<String>(
+                icon: const Icon(Icons.arrow_drop_down),
+                itemBuilder: (context) {
+                  return _searchHistory.reversed.map((String value) {
+                    return PopupMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList();
+                },
+                onSelected: _handleSearchHistory,
+              ),
             ),
           ),
           const SizedBox(height: 20),
@@ -99,7 +139,6 @@ class _FilterMenuState extends State<FilterMenu> {
               '${_priceRange.end.toInt()}',
             ),
           ),
-          
           CheckboxListTile(
             title: const Text('Visitors Allowed'),
             value: _visitorsAllowedSelected,

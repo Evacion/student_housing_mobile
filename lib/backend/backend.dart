@@ -4,12 +4,21 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/services.dart';
 
 class BackEnd {
-  final FirebaseAuth _auth;
-  final GoogleSignIn _googleSignIn;
+  // Flag to track whether sign-in/sign-out process is in progress
+  bool _isAuthOperationInProgress = false;
+  // Singleton instance
+  static final BackEnd _instance = BackEnd._internal();
 
-  BackEnd({FirebaseAuth? auth, GoogleSignIn? googleSignIn})
-      : _auth = auth ?? FirebaseAuth.instance,
-        _googleSignIn = googleSignIn ?? GoogleSignIn();
+  // Private constructor
+  BackEnd._internal();
+
+  // Factory method to return the singleton instance
+  factory BackEnd({FirebaseAuth? auth, GoogleSignIn? googleSignIn}) {
+    return _instance;
+  }
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Future<User?> getCurrentUser() async {
     try {
@@ -23,7 +32,14 @@ class BackEnd {
   }
 
   Future<User?> signInWithGoogle() async {
+    // Check if authentication operation is already in progress
+    if (_isAuthOperationInProgress) {
+      return null; // Return null to indicate operation is already in progress
+    }
+
     try {
+      _isAuthOperationInProgress = true; // Set flag to true
+
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser != null) {
         final GoogleSignInAuthentication googleAuth =
@@ -37,7 +53,7 @@ class BackEnd {
         );
 
         final UserCredential userCredential =
-            await _auth.signInWithCredential(credential); // Wait for the Future to complete
+            await _auth.signInWithCredential(credential);
         return userCredential.user;
       }
     } on FirebaseAuthException catch (e) {
@@ -45,40 +61,48 @@ class BackEnd {
         print('Google Sign-In Error: ${e.toString()}');
       }
       return null;
+    } finally {
+      _isAuthOperationInProgress = false; // Reset flag after operation completes
     }
     return null;
   }
 
   Future<User?> signInAnonymously() async {
+    // Check if authentication operation is already in progress
+    if (_isAuthOperationInProgress) {
+      return null; // Return null to indicate operation is already in progress
+    }
+
     try {
-      final UserCredential userCredential = await _auth.signInAnonymously(); // Wait for the Future to complete
+      _isAuthOperationInProgress = true; // Set flag to true
+
+      final UserCredential userCredential =
+          await _auth.signInAnonymously(); // Wait for the Future to complete
       return userCredential.user;
     } on FirebaseAuthException catch (e) {
       if (kDebugMode) {
         print('Error signing in anonymously: $e');
       }
       return null;
+    } finally {
+      _isAuthOperationInProgress = false; // Reset flag after operation completes
     }
   }
 
   Future<void> signOut() async {
+    if (_isAuthOperationInProgress) {
+      return; // Return immediately if sign-out is already in progress
+    }
+
     try {
+      _isAuthOperationInProgress = true; // Set flag to true
+
       await _googleSignIn.signOut(); // Wait for the Future to complete
       await _auth.signOut(); // Wait for the Future to complete
-    } on PlatformException catch (e) {
-      if (e.code == 'sign_out_canceled') {
-        if (kDebugMode) {
-          print('Sign-Out Canceled');
-        }
-      } else {
-        if (kDebugMode) {
-          print('Other Sign-Out Error: $e');
-        }
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Try Catch Sign-Out Error: $e');
-      }
+    } on PlatformException {
+      // Handle exceptions...
+    } finally {
+      _isAuthOperationInProgress = false; // Reset flag after operation completes
     }
   }
 }
